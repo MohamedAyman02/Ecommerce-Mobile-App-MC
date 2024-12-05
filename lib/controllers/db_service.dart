@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DbService {
 // CATEGORIES
+
 // read categories from database
   Stream<QuerySnapshot> readCategories() {
     return FirebaseFirestore.instance
@@ -33,6 +34,7 @@ class DbService {
   }
 
   // PRODUCTS
+
   // read products from database
   Stream<QuerySnapshot> readProducts() {
     return FirebaseFirestore.instance
@@ -64,6 +66,7 @@ class DbService {
   }
 
   // PROMOS & BANNERS
+
   // read promos from database
   Stream<QuerySnapshot> readPromos(bool isPromo) {
     print("reading $isPromo");
@@ -100,6 +103,7 @@ class DbService {
   }
 
   // DISCOUNT AND COUPON CODE
+
   // read coupon code from database
   Stream<QuerySnapshot> readCouponCode() {
     return FirebaseFirestore.instance.collection("shop_coupons").snapshots();

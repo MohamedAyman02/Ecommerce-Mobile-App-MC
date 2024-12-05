@@ -46,13 +46,20 @@ class _AdminHomeState extends State<AdminHome> {
              Row(
          children: [
            HomeButton(onTap: (){}, name: "Orders"),
-           HomeButton(onTap: (){}, name: "Products"),
+           HomeButton(onTap: (){
+            Navigator.pushNamed(context, "/products");
+           }, name: "Products"),
          ],
              ),      
              Row(
          children: [
-           HomeButton(onTap: (){}, name: "Promos"),
-           HomeButton(onTap: (){}, name: "Banners"),
+           HomeButton(onTap: (){
+            Navigator.pushNamed(context, "/promos", arguments: {"promo" : true});
+           }, name: "Promos"),
+           HomeButton(onTap: (){
+            Navigator.pushNamed(context, "/promos", arguments: {"promo" : false});
+
+           }, name: "Banners"),
          ],
              ),      
              Row(
@@ -60,7 +67,9 @@ class _AdminHomeState extends State<AdminHome> {
            HomeButton(onTap: (){
             Navigator.pushNamed(context, "/category");
            }, name: "Categories"),
-           HomeButton(onTap: (){}, name: "Coupons"),
+           HomeButton(onTap: (){
+            Navigator.pushNamed(context, "/coupons");
+           }, name: "Coupons"),
          ],
              ),      
             ],),
