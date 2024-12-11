@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/views/cart_page.dart';
 import 'package:ecommerce_app/views/home.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class _HomeNavState extends State<HomeNav> {
   List pages = [
     Homepage(),
     Text("Orders"),
-    Text("Cart"),
+    CartPage(),
     ProfilePage()  ];   
   @override
   Widget build(BuildContext context) {
