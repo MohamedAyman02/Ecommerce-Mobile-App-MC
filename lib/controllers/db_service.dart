@@ -21,7 +21,8 @@ class DbService {
       print("error on saving user data: $e");
     }
   }
-    // update user data in database
+
+  // update other data in database
   Future updateUserData({required Map<String, dynamic> extraData}) async {
     await FirebaseFirestore.instance
         .collection("shop_users")
@@ -29,7 +30,7 @@ class DbService {
         .update(extraData);
   }
 
-    // read user current  user data
+  // read user current  user data
   Stream<DocumentSnapshot> readUserData() {
     return FirebaseFirestore.instance
         .collection("shop_users")
@@ -37,27 +38,25 @@ class DbService {
         .snapshots();
   }
 
-   // READ PROMOS AND BANNERS
+  // READ PROMOS AND BANNERS
   Stream<QuerySnapshot> readPromos() {
-    return FirebaseFirestore.instance
-      .collection("shop_promos").snapshots();
+    return FirebaseFirestore.instance.collection("shop_promos").snapshots();
   }
 
   Stream<QuerySnapshot> readBanners() {
-    return FirebaseFirestore.instance
-      .collection("shop_banners").snapshots();
+    return FirebaseFirestore.instance.collection("shop_banners").snapshots();
   }
 
   // DISCOUNTS
-  // read discount coupons
+// read discount coupons
   Stream<QuerySnapshot> readDiscounts() {
     return FirebaseFirestore.instance
         .collection("shop_coupons")
         .orderBy("discount", descending: true)
         .snapshots();
-  }  
+  }
 
-    // verify the coupon
+  // verify the coupon
   Future<QuerySnapshot> verifyDiscount({required String code}) {
     print("seraching for code : $code");
     return FirebaseFirestore.instance
@@ -73,8 +72,8 @@ class DbService {
         .orderBy("priority", descending: true)
         .snapshots();
   }
-  
-    // PRODUCTS
+
+  // PRODUCTS
   // read products of specific categories
   Stream<QuerySnapshot> readProducts(String category) {
     return FirebaseFirestore.instance
@@ -91,7 +90,7 @@ class DbService {
         .snapshots();
   }
 
-   // reduce the count of products after purchase
+  // reduce the count of products after purchase
   Future reduceQuantity(
       {required String productId, required int quantity}) async {
     await FirebaseFirestore.instance
@@ -112,7 +111,6 @@ class DbService {
   }
 
   // adding product to the cart
-  //if the product in cart increment else add and set quantity =1
   Future addToCart({required CartModel cartData}) async {
     try {
       // update
@@ -149,8 +147,7 @@ class DbService {
         .delete();
   }
 
-  // empty users cart 
-  //after the checkout is done
+  // empty users cart
   Future emptyCart() async {
     await FirebaseFirestore.instance
         .collection("shop_users")
@@ -172,5 +169,29 @@ class DbService {
         .collection("cart")
         .doc(productId)
         .update({"quantity": FieldValue.increment(-1)});
+  }
+
+  // ORDERS
+  // create a new order
+  Future createOrder({required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance.collection("shop_orders").add(data);
+  }
+
+  // update the status of order
+  Future updateOrderStatus(
+      {required String docId, required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance
+        .collection("shop_orders")
+        .doc(docId)
+        .update(data);
+  }
+
+  // read the order data of specific user
+  Stream<QuerySnapshot> readOrders() {
+    return FirebaseFirestore.instance
+        .collection("shop_orders")
+        .where("user_id", isEqualTo: user!.uid)
+        .orderBy("created_at", descending: true)//the last order is shown first
+        .snapshots();
   }
 }
